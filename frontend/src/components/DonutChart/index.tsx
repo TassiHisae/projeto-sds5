@@ -5,19 +5,19 @@ import { BASE_URL } from 'utils/requests';
 import { useState, useEffect } from 'react';
 
 type ChartData = {
-    series: number[];
     labels: string[];
+    series: number[];
 }
 
 const DonutChart = () => {
 
-    const [chartData, setChartData] = useState<ChartData>({ series: [], labels: [] });
+    const [chartData, setChartData] = useState<ChartData>({ labels: [], series: [] });
 
     useEffect(() => {
         axios.get(`${BASE_URL}/sales/amount-by-seller`)
             .then(resp => {
                 const data = resp.data as SaleSum[];
-                setChartData({ series: data.map(({ sum }) => sum), labels: data.map(({ sellerName }) => sellerName) });
+                setChartData({ labels: data.map(({ sellerName }) => sellerName), series: data.map(({ sum }) => sum) });
             });
     }, []);
 
